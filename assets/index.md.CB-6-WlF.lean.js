@@ -1,0 +1,1 @@
+import{_ as t,o,c as s,ag as r}from"./chunks/framework.DZKik_R9.js";const g=JSON.parse('{"title":"Introduction","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),n={name:"index.md"};function a(d,e,i,l,c,u){return o(),s("div",null,[...e[0]||(e[0]=[r("",10)])])}const p=t(n,[["render",a]]);export{g as __pageData,p as default};
