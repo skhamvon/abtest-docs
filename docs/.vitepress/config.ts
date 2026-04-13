@@ -6,6 +6,14 @@ export default defineConfig({
     "Hackathon A/B test : solution, serveur de labo, campagnes, segments, consentement.",
   base: "/abtest-docs/",
   cleanUrls: true,
+  vite: {
+    server: {
+      allowedHosts: ["gw2sdev-docker.ovh.net"],
+    },
+    preview: {
+      allowedHosts: ["gw2sdev-docker.ovh.net"],
+    },
+  },
   themeConfig: {
     nav: [
       { text: "Introduction", link: "/" },
