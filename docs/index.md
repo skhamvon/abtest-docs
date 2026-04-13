@@ -1,21 +1,28 @@
-# Documentation A/B testing
+# Introduction
 
-Bienvenue. Cette documentation couvre :
+Ce site documente l’**environnement d’A/B testing** du hackathon : la **solution métier** (`abtest-solution`), le **dépôt de données** campagnes et segments, le **serveur web de démonstration** (`small-webserver`), et le dépôt **documentation** (`abtest-docs`).
 
-- l’**architecture** de la solution (`abtest-solution`) ;
-- le dépôt **données** campagnes et segments (`abtest-campaigns-segments`) ;
-- le **consentement** cookies, le `privacyMode` des campagnes et l’API associée ;
-- la **référence** des règles de ciblage (segments) ;
-- l’**intégration** hôte (remote / contexte navigateur) ;
-- le **développement** local (submodules, ports).
+## Objectif global
 
-## Dépôts associés
+L’ensemble permet de :
 
-| Dépôt                                                                              | Rôle                                                                  |
-| ---------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| [hackathon-abtest](https://github.com/skhamvon/hackathon-abtest)                   | Point d’entrée avec submodules (dont cette doc et `abtest-solution`). |
-| [abtest-solution](https://github.com/skhamvon/abtest-solution)                     | API, UI admin, remote, moteur `@abtest-solution/core`.                |
-| [abtest-campaigns-segments](https://github.com/skhamvon/abtest-campaigns-segments) | JSON campagnes/segments, assets front, `consent-config.json`.         |
-| [abtest-docs](https://github.com/skhamvon/abtest-docs)                             | Ce site (sources Markdown).                                           |
+- définir des **campagnes** et des **segments** (fichiers versionnés) ;
+- les **évaluer** via une API et un **moteur** commun ;
+- consommer les variantes côté site hôte grâce à un **remote** (Module Federation) ;
+- **tester** charge perçue, intégration et bannière de consentement dans un labo web dédié.
 
-Utilise le menu à gauche pour naviguer.
+La suite décrit [les dépôts en détail](./intro/repositories.md), puis [comment tout installer](./install/full-stack.md), et enfin la documentation du [serveur de test](./webserver/intro.md) et de la [solution A/B test](./solution/intro.md).
+
+## Dépôts (aperçu)
+
+| Type | Description (rôle) | Contenu / particularités |
+| ---- | ------------------ | ------------------------ |
+| [hackathon-abtest](https://github.com/skhamvon/hackathon-abtest) | Orchestration locale des projets via submodules. | Racine sans logique métier ; `.gitmodules` ; clone avec `--recursive` pour les données imbriquées. |
+| [abtest-solution](https://github.com/skhamvon/abtest-solution) | Solution A/B : API, UI, remote, moteur. | Monorepo npm + submodule **`abtest-campaigns-segments`**. |
+| [abtest-campaigns-segments](https://github.com/skhamvon/abtest-campaigns-segments) | Fichiers de config et assets des expérimentations. | `Campaigns/`, `Segments/`, `consent-config.json` optionnel ; pas de runtime Node dédié. |
+| [small-webserver](https://github.com/skhamvon/small-webserver) | Labo d’intégration et de tests perçus. | Host + remote + Express, `THROTTLE_KBPS`, démos pages. |
+| [abtest-docs](https://github.com/skhamvon/abtest-docs) | Ce site documentaire. | VitePress ; [Pages](https://skhamvon.github.io/abtest-docs/) en général. |
+
+Les campagnes et segments **effectifs** consommés par la solution se trouvent dans le submodule imbriqué `abtest-solution/abtest-campaigns-segments/`.
+
+Pour le détail de chaque dépôt et les liens entre eux, voir [Description des dépôts](./intro/repositories.md).
