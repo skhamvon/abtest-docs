@@ -20,11 +20,20 @@ Le dépôt **`small-webserver`** illustre une chaîne complète en labo.
 
 Le composant exposé lit notamment :
 
-| Paramètre         | Description                                                                |
-| ----------------- | -------------------------------------------------------------------------- |
-| `ab_campaign_id`  | **Nombre** (id campagne 10000–99999).                                      |
-| `ab_simulation=1` | Active un mode simulation côté API (objet `simulation` non nul).           |
-| `ab_variation_id` | Optionnel : **nombre** (id de variation) pour forcer une variante en démo. |
+| Paramètre         | Description                                                                                                                                                           |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| (assets communs)  | Si le `config.json` de la campagne définit **`sharedJsPath`** / **`sharedCssPath`**, le remote les injecte **avant** les `jsPath` / `cssPath` de la variante choisie. |
+| `ab_campaign_id`  | **Nombre** (id campagne 10000–99999).                                                                                                                                 |
+| `ab_simulation=1` | Mode simulation côté API (`simulation` non nul) : campagne inactive, hors segment ou sans consentement « mesure » peuvent quand même servir une variante.             |
+| `ab_force=1`      | Alias de `ab_simulation=1` (même effet).                                                                                                                              |
+| `ab_variation_id` | Optionnel : **nombre** (id de variation) pour forcer une variante (souvent avec simulation).                                                                          |
+| `ab_skip=1`       | N’appelle pas `/api/evaluate` et n’injecte aucun asset : le test ne se charge pas pour cette page.                                                                    |
+
+## Props du composant `AbTestSlot`
+
+| Prop                   | Rôle                                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------------------- |
+| `navigationDependency` | Optionnel : chaîne qui change quand la vue SPA change sans URL (ex. `location.key` React Router). |
 
 Variable d’environnement côté build : `VITE_ABTEST_API_URL` (sinon `http://localhost:5002` par défaut en dev).
 
@@ -32,11 +41,12 @@ Variable d’environnement côté build : `VITE_ABTEST_API_URL` (sinon `http://l
 
 Le remote alimente notamment :
 
-| Champ dans `context` | Rôle                                                                             |
-| -------------------- | -------------------------------------------------------------------------------- |
-| `cookies`            | Objet clé → valeur ; consentement (`consent-config`) et règles segment `cookie`. |
-| `visitorType`        | `new` \| `returning` (souvent via cookie démo `abtest_returning`).               |
+| Champ dans `context` | Rôle                                                                                                                 |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `cookies`            | Objet clé → valeur ; consentement (`consent-config`) et règles segment `cookie`.                                     |
+| `visitorType`        | `new` \| `returning` (souvent via cookie démo `abtest_returning`).                                                   |
+| `userId`             | Identifiant stable par navigateur (remote : `localStorage` + cookie miroir `abtest_vid`), utilisé pour le bucketing. |
 
 **Géo** (`country`, `region`, `city`) : en général injectée par **BFF**, **edge** ou **CDN**, pas uniquement par le navigateur — voir [Règles et contexte](./campaigns-segments/segments.md#contexte-usercontext).
 
-Voir [Segments](./campaigns-segments/segments.md) et [Consentement](./consent.md).
+Voir [Segments](./campaigns-segments/segments.md), [Consentement](./consent.md) et [Visiteur et assignations](./visitor-assignments.md) (sticky, SPA, module fédéré `./visitorId`).

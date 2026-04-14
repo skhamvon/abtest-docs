@@ -27,6 +27,9 @@ Sous **`abtest-campaigns-segments/Campaigns/`**, une campagne est en général u
 Campaigns/
   MaCampagne/
     config.json
+    shared/
+      script.js
+      style.css
     variant-1/
       script.js
       style.css
@@ -41,7 +44,7 @@ Pour une campagne **`frontend`**, les fichiers statiques (souvent **`script.js`*
 
 Cette convention **numérique** est préférable aux noms libres du type `variant-a`, `patch-a` ou `variant-red` : elle reste alignée avec les **ids numériques** des variations (`idCampagne × 10 + emplacement`) et avec la [CLI scaffold](./scaffold-cli.md), qui génère par défaut **`variant-1/`** pour la première variante non contrôle.
 
-- **`config.json`** : à la racine, **métadonnées de campagne** (`id`, `name`, `type`, statut, confidentialité, **références** aux segments) ; le tableau **`variations`** décrit chaque variante et, en front, les chemins d’assets.
+- **`config.json`** : à la racine, **métadonnées de campagne** (`id`, `name`, `type`, statut, confidentialité, **références** aux segments) ; le tableau **`variations`** décrit chaque variante et, en front, les chemins d’assets. Optionnellement **`shared/`** + champs **`sharedJsPath`** / **`sharedCssPath`** pour du JS/CSS commun à **toutes** les variations (voir ci-dessous).
 - Les sous-dossiers **`variant-x/`** portent les fichiers **statiques** servis ou référencés par URL (souvent via l’URL du **remote** en dev).
 
 ## Fichier `config.json`
@@ -52,15 +55,16 @@ Le fichier mélange deux niveaux : la **configuration de la campagne** (objet ra
 
 **Identifiant campagne** : entier **10000–99999** (JSON `number`). Stable pour l’API, les intégrations et le paramètre `ab_campaign_id`. Les **segments** (définition des ids, règles) sont sur la page **[Segments](./segments.md)**.
 
-| Champ         | Obligation | Valeur / forme                                                                                | Rôle                                                                           |
-| ------------- | ---------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| `id`          | requis     | Entier **10000–99999**.                                                                       | Identifiant stable de la campagne.                                             |
-| `name`        | requis     | Chaîne libre.                                                                                 | Libellé dans l’UI d’administration.                                            |
-| `type`        | requis     | `frontend` ou `backend`.                                                                      | Mode de livraison (voir tableau « deux axes » plus haut).                      |
-| `status`      | requis     | Littéraux du schéma (ex. `running`, `draft`).                                                 | Cycle de vie ; en cas d’erreur au save, voir la validation `storage-fs`.       |
-| `privacyMode` | optionnel  | Absent ou `measurement` (défaut) ou `technical`.                                              | Consentement analytics, tracking, cookie d’assignation.                        |
-| `segments`    | requis     | Tableau d’**entiers** (ids sous `Segments/`). `[]` = aucun filtre segment sur cette campagne. | Ciblage : [Lien avec une campagne](./segments.md#lien-avec-une-campagne).      |
-| `variations`  | requis     | Tableau d’objets (voir section suivante).                                                     | Liste ordonnée des variantes ; la **première** est en général la **contrôle**. |
+| Champ                            | Obligation | Valeur / forme                                                                                | Rôle                                                                                                                                                                                       |
+| -------------------------------- | ---------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`                             | requis     | Entier **10000–99999**.                                                                       | Identifiant stable de la campagne.                                                                                                                                                         |
+| `name`                           | requis     | Chaîne libre.                                                                                 | Libellé dans l’UI d’administration.                                                                                                                                                        |
+| `type`                           | requis     | `frontend` ou `backend`.                                                                      | Mode de livraison (voir tableau « deux axes » plus haut).                                                                                                                                  |
+| `status`                         | requis     | Littéraux du schéma (ex. `running`, `draft`).                                                 | Cycle de vie ; en cas d’erreur au save, voir la validation `storage-fs`.                                                                                                                   |
+| `privacyMode`                    | optionnel  | Absent ou `measurement` (défaut) ou `technical`.                                              | Consentement analytics, tracking, cookie d’assignation.                                                                                                                                    |
+| `segments`                       | requis     | Tableau d’**entiers** (ids sous `Segments/`). `[]` = aucun filtre segment sur cette campagne. | Ciblage : [Lien avec une campagne](./segments.md#lien-avec-une-campagne).                                                                                                                  |
+| `variations`                     | requis     | Tableau d’objets (voir section suivante).                                                     | Liste ordonnée des variantes ; la **première** est en général la **contrôle**.                                                                                                             |
+| `sharedJsPath` / `sharedCssPath` | optionnel  | Même forme que `jsPath` / `cssPath` des variations (URLs).                                    | Campagne **`frontend`** : assets chargés **pour chaque** variante retournée par le moteur, **avant** le `jsPath` / `cssPath` de cette variante (logs, télémétrie, styles de base communs). |
 
 ### Variations (`variations[]`)
 

@@ -33,6 +33,7 @@ Détail : [Module Federation et intégration hôte](./module-federation.md).
 
 ## Suite
 
+- [Visiteur et assignations](./visitor-assignments.md)
 - [Consentement](./consent.md)
 - [Campagnes et segments](./campaigns-segments/index.md)
 - [Aperçu de l’API](../reference/api-overview.md)

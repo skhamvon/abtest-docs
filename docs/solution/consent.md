@@ -8,18 +8,18 @@
 
 ## Valeurs de `privacyMode` et comportements
 
-| Valeur        | Présence dans le JSON                                          | Comportement                                                                                           |
-| ------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `measurement` | Défaut si le champ est **absent** ou littéral `"measurement"`. | Garde-fou `consent-config` si actif ; tracking et cookie d’assignation possibles si consentement OK.   |
-| `technical`   | Littéral explicite `"technical"`.                              | Pas d’exigence de cookie analytics ; pas de `trackExposure` ; pas de cookie d’assignation côté remote. |
+| Valeur        | Présence dans le JSON                                          | Comportement                                                                                                                                                     |
+| ------------- | -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `measurement` | Défaut si le champ est **absent** ou littéral `"measurement"`. | Garde-fou `consent-config` si actif ; tracking et persistance sticky (remote : `localStorage` + migration depuis l’ancien cookie `ab_var_*`) si consentement OK. |
+| `technical`   | Littéral explicite `"technical"`.                              | Pas d’exigence de cookie analytics ; pas de `trackExposure` ; pas de persistance sticky d’assignation côté remote.                                               |
 
 ### Cas d’usage (résumé)
 
-| Situation                                                            | Effet                                                                                                     |
-| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `measurement` et consentement **non** satisfait (`consent_required`) | Variante **contrôle** ; pas de tracking ; le remote peut effacer un ancien cookie d’assignation.          |
-| `measurement` et consentement OK                                     | Évaluation complète ; tracking et assignation selon le moteur.                                            |
-| `technical`                                                          | Pas de lien avec le cookie analytics ; jamais de tracking ni de cookie d’assignation pour cette campagne. |
+| Situation                                                            | Effet                                                                                                            |
+| -------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `measurement` et consentement **non** satisfait (`consent_required`) | Variante **contrôle** ; pas de tracking ; le remote supprime l’entrée sticky (store + ancien cookie `ab_var_*`). |
+| `measurement` et consentement OK                                     | Évaluation complète ; tracking et assignation selon le moteur.                                                   |
+| `technical`                                                          | Pas de lien avec le cookie analytics ; jamais de tracking ni de cookie d’assignation pour cette campagne.        |
 
 ## Fichier `consent-config.json`
 

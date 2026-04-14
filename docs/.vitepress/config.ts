@@ -55,6 +55,7 @@ export default defineConfig({
         items: [
           { text: "Introduction", link: "/solution/intro" },
           { text: "Module Federation & hôte", link: "/solution/module-federation" },
+          { text: "Visiteur et assignations", link: "/solution/visitor-assignments" },
           { text: "Consentement", link: "/solution/consent" },
           {
             text: "Campagnes et segments",

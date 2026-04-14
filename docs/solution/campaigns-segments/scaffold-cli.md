@@ -41,7 +41,7 @@ Le script **refuse** d’écraser un `config.json` déjà présent dans le dossi
 ## Après génération
 
 - **Segment** : éditer `rules` ou `condition` dans le fichier créé (pas les deux).
-- **Campagne** : compléter `segments`. Pour une campagne **`frontend`**, le script crée déjà un dossier **`variant-1/`** avec `script.js` et `style.css` minimaux, et renseigne **`jsPath`** / **`cssPath`** sur la variation « Variation 1 » (en dev, URLs du type `http://localhost:<port-remote>/Campaigns/<nom-du-dossier-campagne>/variant-1/…`). Pour **`backend`**, seul le `config.json` est créé (pas d’assets front).
+- **Campagne** : compléter `segments`. Pour une campagne **`frontend`**, le script crée un dossier **`shared/`** (JS/CSS commun, champs **`sharedJsPath`** / **`sharedCssPath`**) et un dossier **`variant-1/`** avec `script.js` et `style.css` minimaux, et renseigne **`jsPath`** / **`cssPath`** sur la variation « Variation 1 » (en dev, URLs du type `http://localhost:<port-remote>/Campaigns/<nom-du-dossier-campagne>/variant-1/…`). Pour **`backend`**, seul le `config.json` est créé (pas d’assets front).
 
 ## Rappel des plages d’ids
 
