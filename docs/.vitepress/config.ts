@@ -45,6 +45,10 @@ export default defineConfig({
         items: [
           { text: "Introduction", link: "/webserver/intro" },
           { text: "Pages et URLs", link: "/webserver/pages-and-urls" },
+          {
+            text: "Intégration abtest-solution (modifs lab)",
+            link: "/webserver/abtest-solution-changes",
+          },
           { text: "Limitation de débit (throttle)", link: "/webserver/network-throttle" },
           { text: "Développement et build", link: "/webserver/development" },
         ],

@@ -36,7 +36,7 @@ Sans passer par l’UI, la [CLI : squelettes](./scaffold-cli.md) génère un dos
 
 ### Campagnes
 
-- [Configuration et variantes](./campaigns.md)
+- [Configuration et variantes](./campaigns.md) — y compris **`featureFlags`** et [intégration `type: backend`](./campaigns.md#intégration-backend-feature-flags)
 
 ### Segments
 

@@ -8,6 +8,8 @@ Permettre à un **site hôte** (React, autre stack, bundler Vite/Webpack) de :
 2. Appeler **`/api/evaluate`** avec un contexte (cookies, URL, etc.).
 3. Afficher la **variante** (JS/CSS/composants) retournée par le moteur.
 
+Ce flux correspond aux campagnes **`type: frontend`** (livraison par assets). Pour les campagnes **`type: backend`**, la variante s’applique **côté serveur** : le hôte appelle **`POST /api/evaluate`** depuis **sa stack serveur** (ou BFF), consomme notamment **`variation.featureFlags`**, et ne passe **pas** par le slot Module Federation pour la décision (voir [Campagnes — intégration backend](./campaigns-segments/campaigns.md#intégration-backend-feature-flags)).
+
 ## Étapes
 
 1. **Build** du workspace `apps/remote` et hébergement statique (CDN, bucket, etc.).

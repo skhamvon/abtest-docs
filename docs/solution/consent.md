@@ -27,6 +27,7 @@ Emplacement : racine **`abtest-campaigns-segments`**.
 
 ```json
 {
+  "domain": ".example.com",
   "acceptanceCookie": {
     "name": "analytics_consent",
     "value": "granted"
@@ -36,33 +37,38 @@ Emplacement : racine **`abtest-campaigns-segments`**.
 
 ### Propriétés JSON
 
-| Champ                    | Obligation                       | Description                                                            |
-| ------------------------ | -------------------------------- | ---------------------------------------------------------------------- |
-| `acceptanceCookie`       | Si le fichier est utilisé        | Objet `{ "name", "value" }` : couple attendu pour le garde-fou.        |
-| `acceptanceCookie.name`  | Requis pour activer le garde-fou | Chaîne non vide. Nom vide ou fichier absent ⇒ pas de garde-fou.        |
-| `acceptanceCookie.value` | Si garde-fou actif               | Égalité stricte avec `context.cookies[name]` sur `POST /api/evaluate`. |
+| Champ                    | Obligation                                              | Description                                                                                                                                                               |
+| ------------------------ | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `domain`                 | **Requis** pour toute sauvegarde via l’UI admin (`PUT`) | Domaine du site (ex. `.example.com`, `lab.example.com`) : base pour les **liens de simulation** dans l’admin ; **non** utilisé par le moteur pour lire `context.cookies`. |
+| `acceptanceCookie`       | Requis dans le corps `PUT`                              | Objet `{ "name", "value" }` : couple pour le garde-fou analytics.                                                                                                         |
+| `acceptanceCookie.name`  | —                                                       | Chaîne. **Vide** ⇒ pas de garde-fou (`consent-config` inactif pour le moteur).                                                                                            |
+| `acceptanceCookie.value` | Si garde-fou actif                                      | Égalité stricte avec `context.cookies[name]` sur `POST /api/evaluate`.                                                                                                    |
+
+Les anciens fichiers avec `acceptanceCookie.domain` sont encore **lus** (valeur migrée vers `domain` à la volée) ; les nouvelles écritures placent `domain` à la racine.
 
 ### Surcharge environnement (API)
 
-| Variable                      | Obligation | Description                         |
-| ----------------------------- | ---------- | ----------------------------------- |
-| `ABTEST_CONSENT_COOKIE_NAME`  | optionnel  | Prioritaire sur `name` du fichier.  |
-| `ABTEST_CONSENT_COOKIE_VALUE` | optionnel  | Prioritaire sur `value` du fichier. |
+| Variable                       | Obligation | Description                                                                    |
+| ------------------------------ | ---------- | ------------------------------------------------------------------------------ |
+| `ABTEST_CONSENT_COOKIE_NAME`   | optionnel  | Prioritaire sur `acceptanceCookie.name` du fichier.                            |
+| `ABTEST_CONSENT_COOKIE_VALUE`  | optionnel  | Prioritaire sur `acceptanceCookie.value` du fichier.                           |
+| `ABTEST_CONSENT_COOKIE_DOMAIN` | optionnel  | Prioritaire sur **`domain`** racine du fichier (chaîne non vide si surcharge). |
 
 ## API
 
-| Endpoint                  | Rôle                                                                                                  |
-| ------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `GET /api/consent-config` | Indique si le garde-fou est actif et expose nom / valeur attendus pour aligner une CMP ou un bandeau. |
+| Endpoint                  | Rôle                                                                                                                       |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `GET /api/consent-config` | `stored` / `effective` : **domain** (site), **cookie** (nom/valeur), garde-fou actif ou non, `envOverrides`.               |
+| `PUT /api/consent-config` | Corps : **`domain`** (chaîne non vide), **`acceptanceCookie`** `{ name, value }` ; écrit le fichier et recharge le moteur. |
 
 Voir [Aperçu de l’API](../reference/api-overview.md).
 
 ## Interface d’administration (UI)
 
-| Élément                    | Édition                                                                                                           |
-| -------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `privacyMode` par campagne | UI (détail campagne) ou JSON — valeurs `measurement` \| `technical`.                                              |
-| `consent-config.json`      | Fichier à la racine du dépôt données + variables d’environnement API — **pas** d’écran dédié dans l’UI à ce jour. |
+| Élément                    | Édition                                                                                                                                          |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `privacyMode` par campagne | UI (détail campagne) ou JSON — valeurs `measurement` \| `technical`.                                                                             |
+| `consent-config.json`      | Écran **Configuration** de l’UI admin (`/configuration`) ou édition directe du fichier ; surcharges possibles via variables d’environnement API. |
 
 ## Exemple campagne `technical`
 

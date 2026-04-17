@@ -12,10 +12,11 @@ Ce n’est **pas** requis en production ; la solution réelle est **`abtest-solu
 
 ## Pages de cette section
 
-| Page                                         | Contenu                                                                                     |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| [Pages et URLs](./pages-and-urls.md)         | URLs `localhost`, chemins `/demo/*`, `/ovh-bare-metal/` — routes de démo et clone statique. |
-| [Limitation de débit](./network-throttle.md) | `THROTTLE_KBPS`, routes `/__dev/throttle` — simulation de liaison lente.                    |
-| [Développement et build](./development.md)   | Scripts `npm run dev`, `build`, `start` — lancer le labo en local.                          |
+| Page                                                        | Contenu                                                                                                                |
+| ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| [Pages et URLs](./pages-and-urls.md)                        | URLs `localhost`, chemins `/demo/*`, `/ovh-bare-metal/` — routes de démo et clone statique.                            |
+| [Intégration abtest-solution](./abtest-solution-changes.md) | Liste **minimale** des changements dans `small-webserver` pour le lab **frontend** (MF) et **backend** (API evaluate). |
+| [Limitation de débit](./network-throttle.md)                | `THROTTLE_KBPS`, routes `/__dev/throttle` — simulation de liaison lente.                                               |
+| [Développement et build](./development.md)                  | Scripts `npm run dev`, `build`, `start` — lancer le labo en local.                                                     |
 
 [Ports et variables d’environnement](../reference/ports-and-env.md#small-webserver)

@@ -8,6 +8,8 @@ npm run dev
 
 Lance en parallèle remote (~5101), host Vite (~5173), serveur Express (~5000 selon `.env`).
 
+Pour la **[démo A/B backend](./pages-and-urls.md#demo-ab-backend-lab)** : lance aussi l’API **`abtest-solution`** (`apps/api`, port **5002** par défaut) et vérifie les variables **`ABTEST_API_URL`** / **`ABTEST_BACKEND_DEMO_CAMPAIGN_ID`** dans le `.env` du `small-webserver` si besoin. En dev, les requêtes **`/api/*`** du navigateur passent par le **proxy Vite** du host vers le serveur Node (voir `apps/host/vite.config.ts`).
+
 | Mode                                  | URL typique                          |
 | ------------------------------------- | ------------------------------------ |
 | React + HMR (host Vite)               | `http://localhost:<VITE_HOST_PORT>/` |

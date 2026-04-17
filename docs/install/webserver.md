@@ -35,7 +35,8 @@ Build + prod locale : `npm run build` puis `npm start`.
 
 ## Documentation
 
-[Serveur web de test — introduction](../webserver/intro.md)
+[Serveur web de test — introduction](../webserver/intro.md)  
+[Intégration `abtest-solution` sur le lab (liste des modifs)](../webserver/abtest-solution-changes.md)
 
 ## Variables
 
