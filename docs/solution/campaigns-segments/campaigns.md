@@ -167,7 +167,7 @@ Comportement lié au consentement : [Consentement](../consent.md).
 
 ## Édition via l’UI
 
-L’**interface d’administration** (`apps/ui`) permet notamment de **créer** une campagne (saisie d’un **id numérique** 10000–99999 + nom + type) et de **parcourir** campagnes et segments. Les écritures passent par l’**API**, qui persiste sous `abtest-campaigns-segments/Campaigns/`.
+L’**interface d’administration** (`apps/ui`) permet notamment de **créer** une campagne (saisie d’un **id numérique** 10000–99999 + nom + type), de **parcourir** campagnes et segments, et de **créer / modifier / supprimer** des segments (suppression uniquement si aucune campagne ne les référence), avec affichage du **nombre de campagnes** liées à chaque segment. Les écritures passent par l’**API**, qui persiste sous `abtest-campaigns-segments/`.
 
 Pour un **squelette** de campagne ou de segment avec id auto-alloué depuis le dépôt, utiliser la [CLI scaffold](./scaffold-cli.md) (les segments eux-mêmes restent décrits dans [Segments](./segments.md)).
 
